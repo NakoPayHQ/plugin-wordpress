@@ -1,0 +1,41 @@
+name: Release plugin-wordpress (wp.org + GitHub)
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No internal URLs
+        run: bash ./scripts/check-no-internal-urls.sh ./
+      - name: Stage plugin as 'nakopay/'
+        run: |
+          rm -rf build
+          mkdir -p build/nakopay
+          cp -R ./. build/nakopay/
+          # Drop dev/CI files that shouldn't ship in the install zip
+          rm -rf build/nakopay/build build/nakopay/.git build/nakopay/.github \
+                 build/nakopay/node_modules build/nakopay/vendor
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.WP_ORG_USER }}
+          SVN_PASSWORD: ${{ secrets.WP_ORG_PASSWORD }}
+          SLUG: nakopay
+          BUILD_DIR: build/nakopay
+      - name: Build zip
+        run: |
+          cd build
+          zip -r ../nakopay.zip nakopay
+      - name: GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: nakopay.zip
+          generate_release_notes: true
+          name: WordPress ${{ github.ref_name }}
