@@ -3,7 +3,7 @@
  * Plugin Name: NakoPay for WordPress
  * Plugin URI: https://nakopay.com/integrations
  * Description: Add Bitcoin pay buttons and donation forms to any WordPress site.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: NakoPay
  * Author URI: https://nakopay.com
  * License: MIT
