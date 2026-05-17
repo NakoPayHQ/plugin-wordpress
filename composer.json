@@ -1,0 +1,22 @@
+{
+  "name": "nakopay/wordpress",
+  "description": "NakoPay buttons and forms for WordPress",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "version": "0.1.0",
+  "require": {
+    "php": ">=8.0",
+    "nakopay/sdk": "^0.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "NakoPay\\Plugin\\Wordpress\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}
